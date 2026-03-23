@@ -1,0 +1,262 @@
+!DOCTYPE html
+html lang=de
+head
+meta charset=UTF-8
+meta name=viewport content=width=device-width, initial-scale=1.0
+titleStudiStep – Arbeitsablauf Übersichttitle
+style
+   { box-sizing border-box; margin 0; padding 0; }
+  body { font-family Arial, sans-serif; background #f5f5f3; padding 32px 16px; color #1a1a18; }
+
+  h1 { font-size 22px; font-weight 500; margin-bottom 6px; }
+  .subtitle { font-size 13px; color #5f5e5a; margin-bottom 24px; }
+
+  .legend { display flex; flex-wrap wrap; gap 10px; margin-bottom 24px; }
+  .legend-item { display flex; align-items center; gap 6px; font-size 12px; color #5f5e5a; }
+  .legend-dot { width 10px; height 10px; border-radius 50%; }
+
+  .container { max-width 860px; margin 0 auto; }
+
+  .phase-block { margin-bottom 20px; border-radius 12px; border 1px solid #e0dfd8; overflow hidden; background #fff; }
+
+  .phase-header { display flex; align-items center; gap 12px; padding 12px 16px; background #f1efe8; border-bottom 1px solid #e0dfd8; flex-wrap wrap; }
+
+  .phase-num { font-size 11px; font-weight 500; padding 2px 8px; border-radius 20px; white-space nowrap; }
+
+  .phase-title { font-size 15px; font-weight 500; color #1a1a18; }
+
+  .phase-body { display grid; grid-template-columns 1fr 1fr; }
+
+  .task-col { padding 14px 16px; border-right 1px solid #e0dfd8; }
+  .task-collast-child { border-right none; }
+
+  .owner-badge { display inline-flex; align-items center; gap 6px; font-size 11px; font-weight 500; padding 3px 10px; border-radius 20px; margin-bottom 10px; }
+
+  .task-list { list-style none; }
+  .task-list li { font-size 13px; color #5f5e5a; padding 3px 0; padding-left 12px; position relative; line-height 1.5; }
+  .task-list libefore { content –; position absolute; left 0; color #b4b2a9; }
+
+  .payment-tag { font-size 11px; padding 2px 8px; border-radius 20px; margin-left auto; white-space nowrap; }
+
+  .sami-badge { background #E6F1FB; color #0C447C; }
+  .mona-badge { background #EAF3DE; color #27500A; }
+  .emrah-badge { background #FAEEDA; color #633806; }
+  .gunay-badge { background #EEEDFE; color #3C3489; }
+
+  .p1 { background #E6F1FB; color #185FA5; }
+  .p2 { background #EAF3DE; color #3B6D11; }
+  .p3 { background #FAEEDA; color #854F0B; }
+  .p4 { background #EEEDFE; color #534AB7; }
+  .p5 { background #FAECE7; color #993C1D; }
+  .p6 { background #F1EFE8; color #5F5E5A; }
+
+  .einnahme { background #EAF3DE; color #27500A; }
+  .ausgabe { background #FAECE7; color #993C1D; }
+
+  .footer { margin-top 32px; font-size 11px; color #b4b2a9; text-align center; }
+
+  @media (max-width 560px) {
+    .phase-body { grid-template-columns 1fr; }
+    .task-col { border-right none; border-bottom 1px solid #e0dfd8; }
+    .task-collast-child { border-bottom none; }
+  }
+style
+head
+body
+div class=container
+
+  h1StudiStep – Arbeitsablaufh1
+  p class=subtitleVon der Anfrage bis zum Studienabschluss · Rollenverteilung alle Phasenp
+
+  div class=legend
+    div class=legend-itemdiv class=legend-dot style=background#185FA5div Sami – CEOdiv
+    div class=legend-itemdiv class=legend-dot style=background#3B6D11div Mona – Geschäftsführungdiv
+    div class=legend-itemdiv class=legend-dot style=background#854F0Bdiv Emrah – Kooperationdiv
+    div class=legend-itemdiv class=legend-dot style=background#534AB7div Günay + Mitarbeiterin – Bewerbungdiv
+  div
+
+  !-- Phase 1 --
+  div class=phase-block
+    div class=phase-header
+      span class=phase-num p1Phase 1span
+      span class=phase-titleAkquise & Erstkontaktspan
+    div
+    div class=phase-body
+      div class=task-col
+        div class=owner-badge sami-badgeSami – CEOdiv
+        ul class=task-list
+          liStrategie für Akquise festlegenli
+          liGoogle Ads & Social Media Budget freigebenli
+          liPartnerschaften für Lead-Generierung aufbauenli
+          liKPIs und Tracking (GTM) überwachenli
+        ul
+      div
+      div class=task-col
+        div class=owner-badge mona-badgeMona – Geschäftsführungdiv
+        ul class=task-list
+          liLead-Eingang im System erfassen & prüfenli
+          liLeads an Sami zur Erstberatung weiterleitenli
+          liInterne Abläufe bei Lead-Erfassung koordinierenli
+          liWebsite-Formular & SEO-Performance überwachenli
+        ul
+      div
+    div
+  div
+
+  !-- Phase 2 --
+  div class=phase-block
+    div class=phase-header
+      span class=phase-num p2Phase 2span
+      span class=phase-titleErstberatung & Vertragsabschlussspan
+      span class=payment-tag einnahmeEinnahme Beratungsgebühr (13)span
+    div
+    div class=phase-body
+      div class=task-col
+        div class=owner-badge sami-badgeSami – CEOdiv
+        ul class=task-list
+          liKostenlose Erstberatung durchführen (WhatsApp  Zoom  persönlich)li
+          liBedarfsanalyse Studienwunsch, Sprachniveau, Finanzen, Zeitplanli
+          liBeratungsvertrag abschließen & unterzeichnenli
+          liPersönlichen Berater zuweisenli
+          liBeratungsgebühr einfordern (Zahlung Phase 1)li
+        ul
+      div
+      div class=task-col
+        div class=owner-badge mona-badgeMona – Geschäftsführungdiv
+        ul class=task-list
+          liVertrag im System hinterlegenli
+          liZahlungseingang kontrollierenli
+          liAkte des Studierenden anlegen & an Günay übergebenli
+          liKommunikationskanal intern koordinierenli
+        ul
+      div
+    div
+  div
+
+  !-- Phase 3 --
+  div class=phase-block
+    div class=phase-header
+      span class=phase-num p3Phase 3span
+      span class=phase-titleBewerbung & Zulassungspan
+      span class=payment-tag einnahmeEinnahme Bewerbungsgebühr (23)span
+    div
+    div class=phase-body
+      div class=task-col
+        div class=owner-badge gunay-badgeGünay + Mitarbeiterindiv
+        ul class=task-list
+          liDokumenten-Check Zeugnis, Pass, Sprachzertifikatli
+          liFehlende Dokumente nachfordernli
+          liBeglaubigung & Übersetzung koordinierenli
+          liHochschule & Studiengang auswählenli
+          liBewerbung vollständig einreichen (Portal  Uni-Assist)li
+          liFristen überwachen & Nachforderungen bearbeitenli
+          liZulassungsbescheid entgegennehmen & weiterleitenli
+        ul
+      div
+      div class=task-col
+        div class=owner-badge mona-badgeMona – Geschäftsführungdiv
+        ul class=task-list
+          liKontakt zu SRH Köln  FHM & weiteren Hochschulen haltenli
+          liZulassungsvoraussetzungen aktuell haltenli
+          liNeue Hochschulpartnerschaften verhandelnli
+          liBewerbungsfristen mit Hochschulpartnern abstimmenli
+        ul
+      div
+    div
+  div
+
+  !-- Phase 4 --
+  div class=phase-block
+    div class=phase-header
+      span class=phase-num p4Phase 4span
+      span class=phase-titleVorbereitung (parallel)span
+      span class=payment-tag ausgabeAusgabe Provision Sprachschule + Visaspan
+    div
+    div class=phase-body
+      div class=task-col
+        div class=owner-badge gunay-badgeGünay + Mitarbeiterindiv
+        ul class=task-list
+          liSprachkurs organisieren & Einstufung koordinierenli
+          liKursanmeldung bei Partner-Sprachschuleli
+          liSperrkonto-Eröffnung begleiten (11.208 €)li
+          liKrankenversicherung & Haftpflicht koordinierenli
+          liAlle Visa-Dokumente sammeln & Dossier erstellenli
+          liÜbergabe an Visa-Agenturli
+          liFlugbuchung & Ankunft koordinierenli
+        ul
+      div
+      div class=task-col
+        div class=owner-badge emrah-badgeEmrah – Kooperationdiv
+        ul class=task-list
+          liSprachschul-Partnerverträge verwalten (15% Provision)li
+          liVisa-Agentur-Kooperation sicherstellenli
+          liVersicherungspartner betreuenli
+          liSperrkonto-Anbieter koordinierenli
+        ul
+      div
+    div
+  div
+
+  !-- Phase 5 --
+  div class=phase-block
+    div class=phase-header
+      span class=phase-num p5Phase 5span
+      span class=phase-titleAnkunft in Deutschlandspan
+      span class=payment-tag einnahmeEinnahme Ankunftsgebühr (33)span
+    div
+    div class=phase-body
+      div class=task-col
+        div class=owner-badge gunay-badgeGünay + Mitarbeiterindiv
+        ul class=task-list
+          liFlughafen-Abholung & Transfer organisierenli
+          liWillkommenspaket übergebenli
+          liWohnungsübergabe begleitenli
+          liEinwohnermeldeamt & Bankkonto-Eröffnung begleitenli
+          liAufenthaltstitel abholenli
+          liImmatrikulation an der Hochschule abschließenli
+        ul
+      div
+      div class=task-col
+        div class=owner-badge mona-badgeMona – Geschäftsführungdiv
+        ul class=task-list
+          liAnkunftsgebühr (Zahlung Phase 3) einfordern & verbuchenli
+          liAbschluss der Akte dokumentierenli
+          liÜbergabe an langfristige Betreuung koordinierenli
+        ul
+      div
+    div
+  div
+
+  !-- Phase 6 --
+  div class=phase-block
+    div class=phase-header
+      span class=phase-num p6Phase 6span
+      span class=phase-titleLangfristige Betreuungspan
+    div
+    div class=phase-body
+      div class=task-col
+        div class=owner-badge mona-badgeMona – Geschäftsführungdiv
+        ul class=task-list
+          liSprach- & Kulturtraining koordinierenli
+          liNachhilfe & Lernhilfe organisierenli
+          li247 Notfallhilfe sicherstellenli
+          liVisa-Verlängerung koordinierenli
+        ul
+      div
+      div class=task-col
+        div class=owner-badge sami-badgeSami – CEOdiv
+        ul class=task-list
+          liPraktika & Jobvermittlung strategisch aufbauenli
+          liAlumni-Netzwerk pflegenli
+          liKarriereberatung & Bewerbungstraining verantwortenli
+          liLangfristige Partnerschaftsstrategie steuernli
+        ul
+      div
+    div
+  div
+
+  div class=footerStudiStep · Köln & Istanbul · www.studistep.de · 2026 · Vertraulichdiv
+
+div
+body
+html
