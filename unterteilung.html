@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudiStep – Interne Prozesse</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f5f5f3; color: #1a1a18; padding: 32px 16px; }
+
+.container { max-width: 960px; margin: 0 auto; }
+
+h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: #5f5e5a; margin-bottom: 28px; }
+
+/* Tabs */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.tab-btn {
+  font-size: 13px; font-weight: 600; padding: 8px 20px;
+  border-radius: 24px; border: 2px solid transparent;
+  cursor: pointer; transition: all .15s;
+}
+.tab-btn.sami  { background: #E6F1FB; color: #0C447C; border-color: #B5D4F4; }
+.tab-btn.mona  { background: #EAF3DE; color: #27500A; border-color: #C0DD97; }
+.tab-btn.emrah { background: #FAEEDA; color: #633806; border-color: #FAC775; }
+.tab-btn.gunay { background: #EEEDFE; color: #3C3489; border-color: #CECBF6; }
+.tab-btn.active { color: #fff; }
+.tab-btn.sami.active  { background: #0C447C; border-color: #0C447C; }
+.tab-btn.mona.active  { background: #27500A; border-color: #27500A; }
+.tab-btn.emrah.active { background: #633806; border-color: #633806; }
+.tab-btn.gunay.active { background: #3C3489; border-color: #3C3489; }
+
+/* Views */
+.view { display: none; }
+.view.active { display: block; }
+
+/* Person header */
+.person-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 24px; border-radius: 12px; margin-bottom: 24px;
+}
+.person-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700; flex-shrink: 0;
+}
+.person-name { font-size: 20px; font-weight: 700; }
+.person-role { font-size: 13px; margin-top: 2px; opacity: .75; }
+
+.sami-h  { background: #E6F1FB; }
+.mona-h  { background: #EAF3DE; }
+.emrah-h { background: #FAEEDA; }
+.gunay-h { background: #EEEDFE; }
+
+.sami-av  { background: #0C447C; color: #fff; }
+.mona-av  { background: #27500A; color: #fff; }
+.emrah-av { background: #633806; color: #fff; }
+.gunay-av { background: #3C3489; color: #fff; }
+
+.sami-txt  { color: #0C447C; }
+.mona-txt  { color: #27500A; }
+.emrah-txt { color: #633806; }
+.gunay-txt { color: #3C3489; }
+
+/* Process steps */
+.steps { position: relative; }
+
+.step {
+  display: flex; gap: 16px; margin-bottom: 14px;
+}
+.step-left {
+  display: flex; flex-direction: column; align-items: center;
+  width: 40px; flex-shrink: 0;
+}
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0; color: #fff;
+}
+.step-connector {
+  width: 2px; flex: 1; min-height: 14px;
+  background: #e0dfd8; margin-top: 4px;
+}
+
+.step-body {
+  flex: 1; background: #fff;
+  border: 1px solid #e0dfd8; border-radius: 10px;
+  padding: 14px 16px; margin-bottom: 2px;
+}
+.step-phase {
+  font-size: 10px; font-weight: 700; padding: 2px 9px;
+  border-radius: 10px; display: inline-block; margin-bottom: 8px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.step-title {
+  font-size: 15px; font-weight: 700; color: #1a1a18; margin-bottom: 4px;
+}
+.step-when {
+  font-size: 11px; color: #888780; margin-bottom: 10px;
+}
+.step-tasks { list-style: disc; padding-left: 18px; }
+.step-tasks li {
+  font-size: 13px; color: #5f5e5a;
+  padding: 3px 0; line-height: 1.5;
+}
+.step-tasks li strong {
+  color: #1a1a18; font-weight: 600;
+}
+
+.handoff {
+  display: flex; align-items: center; gap: 8px;
+  margin: 4px 0 0; padding: 8px 12px;
+  background: #f9f8f5; border-radius: 8px;
+  border-left: 3px solid #e0dfd8;
+  font-size: 12px; color: #5f5e5a;
+}
+.handoff-icon { font-size: 14px; }
+
+/* Phase color badges */
+.ph1 { background: #E6F1FB; color: #185FA5; }
+.ph2 { background: #EAF3DE; color: #3B6D11; }
+.ph3 { background: #FAEEDA; color: #854F0B; }
+.ph4 { background: #EEEDFE; color: #534AB7; }
+.ph5 { background: #FAECE7; color: #993C1D; }
+.ph6 { background: #F1EFE8; color: #5F5E5A; }
+.phlauf { background: #F1EFE8; color: #5F5E5A; }
+
+/* Step num colors */
+.n-sami  { background: #0C447C; }
+.n-mona  { background: #27500A; }
+.n-emrah { background: #633806; }
+.n-gunay { background: #3C3489; }
+
+.footer { margin-top: 36px; font-size: 11px; color: #b4b2a9; text-align: center; }
+
+@media (max-width: 600px) {
+  .tabs { gap: 6px; }
+  .tab-btn { padding: 7px 14px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>StudiStep – Interne Prozesse</h1>
+  <p class="subtitle">Was macht wer – in welcher Reihenfolge · Pro Person</p>
+
+  <div class="tabs">
+    <button class="tab-btn sami active"  onclick="show('sami', this)">Sami</button>
+    <button class="tab-btn mona"         onclick="show('mona', this)">Mona</button>
+    <button class="tab-btn emrah"        onclick="show('emrah', this)">Emrah</button>
+    <button class="tab-btn gunay"        onclick="show('gunay', this)">Günay</button>
+  </div>
+
+
+  <!-- ═══════════════════════════
+       SAMI
+  ═══════════════════════════ -->
+  <div id="view-sami" class="view active">
+    <div class="person-header sami-h">
+      <div class="person-avatar sami-av">S</div>
+      <div>
+        <div class="person-name sami-txt">Sami</div>
+        <div class="person-role sami-txt">CEO – Strategie, Entscheidungen, Finanzen & operatives Tagesgeschäft</div>
+      </div>
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-sami">1</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph1">Zuerst</span>
+          <div class="step-title">Gesamtstrategie & Akquise aufsetzen</div>
+          <div class="step-when">Einmalig zu Beginn – bevor Leads eingehen</div>
+          <ul class="step-tasks">
+            <li>Akquise-Strategie für alle Kanäle festlegen (Website, Social Media, Empfehlung)</li>
+            <li>Budget für Google Ads & Social Media freigeben</li>
+            <li>GTM-Tracking (GTM-KB3BNQCZ) einrichten & KPIs definieren</li>
+            <li>Partnerschaften für Lead-Generierung koordinieren</li>
+            <li>Preisstruktur & Zahlungsphasen final festlegen</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Übergabe an Mona: Interne Abläufe & Lead-Erfassung aufsetzen</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-sami">2</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph2">Je Studierendem</span>
+          <div class="step-title">Vertrag abschließen & Zahlung einfordern</div>
+          <div class="step-when">Sobald Mona die Erstberatung abgeschlossen hat</div>
+          <ul class="step-tasks">
+            <li>Beratungsvertrag unterzeichnen lassen</li>
+            <li>Leistungsumfang & Kommunikationskanal festlegen</li>
+            <li>Persönlichen Berater zuweisen (Günay)</li>
+            <li>Beratungsgebühr einfordern (Zahlung 1/3)</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Übergabe an Mona: Vertrag & Zahlung im System hinterlegen, Akte an Günay übergeben</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-sami">3</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph6">Laufend</span>
+          <div class="step-title">Online-Marketing, Wachstum & Strategie</div>
+          <div class="step-when">Laufend – wöchentlich & monatlich</div>
+          <ul class="step-tasks">
+            <li>Social Media Strategie & Content-Planung überwachen (Instagram, Facebook)</li>
+            <li>Google Ads Kampagnen auswerten & Budget optimieren</li>
+            <li>Neue Märkte & Zielgruppen identifizieren & testen</li>
+            <li>SEO-Strategie & Website-Performance mit Mona besprechen</li>
+            <li>Wachstumsstrategie & Skalierung auf neue Länder steuern</li>
+            <li>Monatliche Performance-Auswertung: Leads, Conversions, Kosten je Student</li>
+            <li>Alumni-Netzwerk für Empfehlungen & Mundpropaganda nutzen</li>
+            <li>Neue Kooperationspartner & Investoren identifizieren</li>
+            <li>Quartalsziele & Finanzzahlen mit Mona abstimmen</li>
+            <li>Langfristige Unternehmensstrategie & Positionierung von StudiStep steuern</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-sami">4</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph3">Finanzen & Controlling</span>
+          <div class="step-title">Finanzen, Einnahmen & Controlling steuern</div>
+          <div class="step-when">Laufend – monatlich & quartalsweise</div>
+          <ul class="step-tasks">
+            <li>Alle drei Zahlungsphasen je Studierendem überwachen (Beratungs-, Bewerbungs- & Ankunftsgebühr)</li>
+            <li>Provisionszahlungen von Hochschulen, Sprachschulen & Versicherungen kontrollieren</li>
+            <li>Ausgaben für Visa-Agenturen & externe Dienstleister prüfen & freigeben</li>
+            <li>Monatsabschluss & Liquiditätsplanung mit Mona abstimmen</li>
+            <li>Preisstruktur & Gebühren regelmäßig evaluieren & bei Bedarf anpassen</li>
+            <li>Investitionen in Marketing & Wachstum genehmigen</li>
+            <li>Jahresziele & Budget für das nächste Quartal festlegen</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Abstimmung mit Mona: Monatliche Zahlen & offene Zahlungen prüfen</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════
+       MONA
+  ═══════════════════════════ -->
+  <div id="view-mona" class="view">
+    <div class="person-header mona-h">
+      <div class="person-avatar mona-av">M</div>
+      <div>
+        <div class="person-name mona-txt">Mona</div>
+        <div class="person-role mona-txt">Geschäftsführung – Operatives Management, interne Abläufe & Teamkoordination</div>
+      </div>
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-mona">1</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph1">Zuerst</span>
+          <div class="step-title">Interne Abläufe & Systeme aufsetzen</div>
+          <div class="step-when">Einmalig zu Beginn – parallel zu Sami</div>
+          <ul class="step-tasks">
+            <li>Lead-Erfassung im internen System einrichten</li>
+            <li>Akten-System für Studierende aufsetzen</li>
+            <li>Kommunikationswege intern festlegen (WhatsApp-Gruppen, Tools)</li>
+            <li>Zahlungsüberwachung & Buchhaltungsablauf definieren</li>
+            <li>Website-Formular & SEO-Performance überwachen</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Koordination mit Emrah: Partnerverträge & Provisionsmodelle abstimmen</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-mona">2</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph1">Je Lead</span>
+          <div class="step-title">Lead erfassen & weiterleiten</div>
+          <div class="step-when">Sobald ein Lead eingeht</div>
+          <ul class="step-tasks">
+            <li>Lead aus Formular, Social Media oder Empfehlung im System erfassen</li>
+            <li>Lead-Daten prüfen: Name, Kontakt, Studienwunsch, Sprachniveau, Herkunft</li>
+            <li>Qualifizierten Lead intern zur Erstberatung vorbereiten</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-mona">3</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph2">Je Studierendem</span>
+          <div class="step-title">Erstberatung durchführen</div>
+          <div class="step-when">Direkt nach Lead-Qualifizierung</div>
+          <ul class="step-tasks">
+            <li>Kostenlose Erstberatung durchführen (WhatsApp / Zoom / persönlich, in Muttersprache)</li>
+            <li>Bedarfsanalyse: Studienwunsch, Sprachniveau, finanzielle Situation, Zeitplan, Dokumente</li>
+            <li>Studierenden über Leistungsumfang & Kosten informieren</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Übergabe an Sami: Interessent bereit für Vertragsabschluss</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-mona">4</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph2">Je Studierendem</span>
+          <div class="step-title">Vertrag & Akte anlegen</div>
+          <div class="step-when">Sobald Sami den Vertrag abgeschlossen hat</div>
+          <ul class="step-tasks">
+            <li>Unterschriebenen Vertrag im System hinterlegen</li>
+            <li>Zahlungseingang der Beratungsgebühr (1/3) kontrollieren & verbuchen</li>
+            <li>Vollständige Akte des Studierenden anlegen</li>
+            <li>Akte an Günay übergeben mit allen relevanten Infos</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Übergabe an Günay: Akte mit Studienwunsch, Dokumente-Status & Fristen</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-mona">5</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph3">Laufend</span>
+          <div class="step-title">Hochschulkontakt & Partnerbeziehungen pflegen</div>
+          <div class="step-when">Laufend – parallel zum Bewerbungsprozess</div>
+          <ul class="step-tasks">
+            <li>Direkten Kontakt zu SRH Köln, FHM & weiteren Hochschulen halten</li>
+            <li>Aktuelle Zulassungsvoraussetzungen & Bewerbungsfristen bei Hochschulen abfragen</li>
+            <li>Neue Hochschulpartnerschaften verhandeln & abschließen</li>
+            <li>Änderungen sofort an Günay kommunizieren</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-mona">6</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph5">Je Studierendem</span>
+          <div class="step-title">Ankunftsgebühr & Akte abschließen</div>
+          <div class="step-when">Sobald Immatrikulation abgeschlossen ist</div>
+          <ul class="step-tasks">
+            <li>Ankunftsgebühr einfordern & verbuchen (Zahlung 3/3)</li>
+            <li>Akte vollständig dokumentieren & archivieren</li>
+            <li>Studierenden in langfristige Betreuung übergeben</li>
+            <li>Provisionsabrechnung mit Emrah abgleichen</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-mona">7</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph6">Laufend</span>
+          <div class="step-title">Langfristige Betreuung koordinieren</div>
+          <div class="step-when">Ab Immatrikulation – laufend</div>
+          <ul class="step-tasks">
+            <li>Sprach- & Kulturtraining für Studierende koordinieren</li>
+            <li>Nachhilfe & Lernhilfe organisieren</li>
+            <li>24/7 Notfallhilfe sicherstellen & koordinieren</li>
+            <li>Visa-Verlängerung rechtzeitig einleiten & mit Emrah koordinieren</li>
+            <li>Team intern koordinieren & Aufgaben verteilen</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════
+       EMRAH
+  ═══════════════════════════ -->
+  <div id="view-emrah" class="view">
+    <div class="person-header emrah-h">
+      <div class="person-avatar emrah-av">E</div>
+      <div>
+        <div class="person-name emrah-txt">Emrah</div>
+        <div class="person-role emrah-txt">Kooperation – Sprachschulen, Visa-Agenturen, Versicherungen & Sperrkonto</div>
+      </div>
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-emrah">1</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph1">Zuerst</span>
+          <div class="step-title">Alle Partnerverträge abschließen</div>
+          <div class="step-when">Einmalig zu Beginn – bevor der erste Student kommt</div>
+          <ul class="step-tasks">
+            <li><strong>Sprachschulen:</strong> Partnerverträge mit Provisionsmodell (15%) abschließen</li>
+            <li><strong>Visa-Agentur:</strong> Kooperationsvertrag aufsetzen, Zuständigkeiten & Kosten klären</li>
+            <li><strong>Versicherungen:</strong> Partnerverträge für Kranken-, Haftpflicht- & Reiseversicherung abschließen</li>
+            <li><strong>Sperrkonto-Anbieter:</strong> Zusammenarbeit koordinieren & Prozess festlegen</li>
+            <li>Alle Verträge & Konditionen mit Mona abstimmen</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Übergabe an Mona & Sami: Alle Partnerverträge zur Freigabe vorlegen</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-emrah">2</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph4">Je Studierendem</span>
+          <div class="step-title">Sprachkurs-Anmeldung koordinieren</div>
+          <div class="step-when">Sobald Zulassungsbescheid vorliegt</div>
+          <ul class="step-tasks">
+            <li>Günays Anfrage für Sprachkurs entgegennehmen</li>
+            <li>Kursanmeldung bei Partner-Sprachschule abwickeln</li>
+            <li>Einstufungstest koordinieren</li>
+            <li>Provision (15%) abrechnen & dokumentieren</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Rückmeldung an Günay: Kursbestätigung & Startdatum</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-emrah">3</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph4">Je Studierendem</span>
+          <div class="step-title">Visa-Übergabe & Versicherung koordinieren</div>
+          <div class="step-when">Parallel zur Sprachkurs-Anmeldung</div>
+          <ul class="step-tasks">
+            <li>Visa-Dossier von Günay entgegennehmen & an Visa-Agentur übergeben</li>
+            <li>Agentur-Prozess begleiten & als Ansprechpartner bereitstehen</li>
+            <li>Agentur-Kosten je Fall abrechnen & dokumentieren</li>
+            <li>Abschluss Krankenversicherung & Haftpflicht koordinieren & Provision abrechnen</li>
+            <li>Sperrkonto-Eröffnung mit Anbieter koordinieren</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Rückmeldung an Günay: Visa-Status, Versicherungsnachweis, Sperrkonto-Bestätigung</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-emrah">4</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase phlauf">Laufend</span>
+          <div class="step-title">Partnerschaften pflegen & ausbauen</div>
+          <div class="step-when">Kontinuierlich</div>
+          <ul class="step-tasks">
+            <li>Bestehende Partnerverträge regelmäßig prüfen & aktuell halten</li>
+            <li>Neue Kooperationspartner (Sprachschulen, Versicherungen) akquirieren</li>
+            <li>Provisionen & Abrechnungen überwachen & mit Mona abgleichen</li>
+            <li>Feedback von Günay zu Partnerqualität einholen & weiterleiten</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════
+       GÜNAY
+  ═══════════════════════════ -->
+  <div id="view-gunay" class="view">
+    <div class="person-header gunay-h">
+      <div class="person-avatar gunay-av">G</div>
+      <div>
+        <div class="person-name gunay-txt">Günay</div>
+        <div class="person-role gunay-txt">Bewerbung & Zulassung – Dokumentenmanagement, Einreichung & Ankunftsbetreuung</div>
+      </div>
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-gunay">1</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph2">Start</span>
+          <div class="step-title">Akte übernehmen & Dokumenten-Check starten</div>
+          <div class="step-when">Sobald Mona die Akte übergibt</div>
+          <ul class="step-tasks">
+            <li>Akte mit allen Infos von Mona entgegennehmen</li>
+            <li>Studierenden kontaktieren & Dokumentenliste zusenden</li>
+            <li>Zeugnis, Abitur, Pass, Sprachzertifikat prüfen</li>
+            <li>Fehlende Dokumente nachfordern</li>
+            <li>Beglaubigung & Übersetzung koordinieren</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Information an Mona: Dokumentenstatus & voraussichtlicher Zeitplan</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-gunay">2</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph3">Bewerbung</span>
+          <div class="step-title">Hochschule auswählen & Bewerbung einreichen</div>
+          <div class="step-when">Sobald alle Dokumente vollständig sind</div>
+          <ul class="step-tasks">
+            <li>Hochschule & Studiengang mit Studierendem abstimmen (SRH, FHM, weitere)</li>
+            <li>Zulassungsvoraussetzungen bei Mona abfragen</li>
+            <li>Vollständige Bewerbung einreichen (Hochschulportal oder Uni-Assist)</li>
+            <li>Alle Fristen überwachen, Nachforderungen sofort bearbeiten</li>
+            <li>Zulassungsbescheid entgegennehmen & an Studierenden weiterleiten</li>
+            <li>Bewerbungsgebühr über Mona einfordern (Zahlung 2/3)</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Übergabe an Emrah: Sprachkurs-Anfrage, Visa-Dossier vorbereiten</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-gunay">3</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph4">Parallel</span>
+          <div class="step-title">Vorbereitung koordinieren</div>
+          <div class="step-when">Parallel – sofort nach Zulassungsbescheid</div>
+          <ul class="step-tasks">
+            <li>Sprachkurs-Anfrage an Emrah weiterleiten & Kursbestätigung abwarten</li>
+            <li>Sperrkonto-Eröffnung mit Emrah koordinieren (11.208 Euro)</li>
+            <li>Krankenversicherung & Haftpflicht über Emrah koordinieren</li>
+            <li>Alle Visa-Dokumente sammeln & vollständiges Dossier erstellen</li>
+            <li>Dossier an Emrah übergeben zur Weiterleitung an Visa-Agentur</li>
+            <li>Visa-Status regelmäßig bei Emrah abfragen</li>
+            <li>Flugbuchung & Unterkunft koordinieren</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num n-gunay">4</div><div class="step-connector"></div></div>
+        <div class="step-body">
+          <span class="step-phase ph5">Ankunft</span>
+          <div class="step-title">Ankunft in Deutschland begleiten</div>
+          <div class="step-when">Ab Ankunftstag</div>
+          <ul class="step-tasks">
+            <li>Flughafen-Abholung & Transfer zur Unterkunft organisieren</li>
+            <li>Wohnungsübergabe begleiten, Willkommenspaket übergeben</li>
+            <li>Einwohnermeldeamt-Termin begleiten</li>
+            <li>Bankkonto-Eröffnung begleiten</li>
+            <li>Aufenthaltstitel abholen</li>
+            <li>Immatrikulation an der Hochschule vollständig abschließen</li>
+            <li>Mona informieren: Immatrikulation abgeschlossen, Ankunftsgebühr fällig</li>
+          </ul>
+          <div class="handoff"><span class="handoff-icon">→</span> Übergabe an Mona: Abschluss-Meldung, Ankunftsgebühr (3/3) einfordern</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">StudiStep · Köln & Istanbul · www.studistep.de · 2026 · Vertraulich</div>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
